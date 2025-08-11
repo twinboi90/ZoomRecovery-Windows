@@ -1,0 +1,34 @@
+name: Build ZoomRecover-Windows Installer
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.ps1'
+
+jobs:
+  build-windows-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Install ps2exe module
+        run: |
+          Install-Module -Name ps2exe -Scope CurrentUser -Force -Confirm:$false
+        shell: pwsh
+
+      - name: 🛠️ Convert PowerShell to EXE
+        run: |
+          Invoke-PS2EXE -InputFile zoom-windows-setup.ps1 `
+                        -OutputFile ZoomRecover-Windows-Setup.exe `
+                        -requireAdmin -noConsole -title "ZoomRecover Installer"
+        shell: pwsh
+
+      - name: 📦 Upload .exe as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ZoomRecover-Installer
+          path: ZoomRecover-Windows-Setup.exe
