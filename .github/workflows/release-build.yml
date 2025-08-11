@@ -1,0 +1,32 @@
+name: Build and Upload EXE to Release
+
+on:
+  release:
+    types: [published]  # Triggers when you publish a new release
+
+jobs:
+  build-and-upload:
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Install ps2exe
+        run: |
+          Install-Module -Name ps2exe -Scope CurrentUser -Force -Confirm:$false
+        shell: pwsh
+
+      - name: 🛠️ Convert .ps1 to .exe
+        run: |
+          Invoke-PS2EXE -InputFile zoom-windows-setup.ps1 `
+                        -OutputFile ZoomRecover-Windows-Setup.exe `
+                        -requireAdmin -noConsole -title "ZoomRecover Installer"
+        shell: pwsh
+
+      - name: 📤 Upload .exe to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ZoomRecover-Windows-Setup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
