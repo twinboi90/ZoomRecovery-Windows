@@ -20,13 +20,13 @@ jobs:
       - name: 🛠️ Convert .ps1 to .exe
         run: |
           Invoke-PS2EXE -InputFile zoom-windows-setup.ps1 `
-                        -OutputFile ZoomRecover-Windows-Setup.exe `
-                        -requireAdmin -noConsole -title "ZoomRecover Installer"
+                        -OutputFile ZoomRecovery-Windows-Setup.exe `
+                        -requireAdmin -noConsole -title "ZoomRecovery Installer"
         shell: pwsh
 
       - name: 📤 Upload .exe to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ZoomRecover-Windows-Setup.exe
+          files: ZoomRecovery-Windows-Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

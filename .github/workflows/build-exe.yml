@@ -1,4 +1,4 @@
-name: Build ZoomRecover-Windows Installer
+name: Build ZoomRecovery-Windows Installer
 
 on:
   push:
@@ -23,12 +23,12 @@ jobs:
       - name: 🛠️ Convert PowerShell to EXE
         run: |
           Invoke-PS2EXE -InputFile zoom-windows-setup.ps1 `
-                        -OutputFile ZoomRecover-Windows-Setup.exe `
-                        -requireAdmin -noConsole -title "ZoomRecover Installer"
+                        -OutputFile ZoomRecovery-Windows-Setup.exe `
+                        -requireAdmin -noConsole -title "ZoomRecovery Installer"
         shell: pwsh
 
       - name: 📦 Upload .exe as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ZoomRecover-Installer
-          path: ZoomRecover-Windows-Setup.exe
+          name: ZoomRecovery-Installer
+          path: ZoomRecovery-Windows-Setup.exe
